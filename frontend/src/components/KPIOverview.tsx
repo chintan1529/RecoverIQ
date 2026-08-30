@@ -46,10 +46,10 @@ export const KPIOverview: React.FC<KPIOverviewProps> = ({ summary, onSeedData, i
       sub: `${summary.recovery_rate_pct}% conversion`,
     },
     {
-      label: 'Incremental ROI',
+      label: 'Campaign ROI',
       value: `${summary.roi}x`,
       color: 'var(--color-warning-text)',
-      sub: 'Return on intervention cost',
+      sub: 'Net Value / Outreach Cost',
     },
     {
       label: 'Gross Recovery',

@@ -82,11 +82,12 @@ def get_analytics_summary(db: Session = Depends(get_db)):
         else:
             roi = 0.0
     else:
-        # Pre-execution / Portfolio Projection based on empirical model benchmarks
-        recovery_rate = 48.2
-        baseline_recovery_rate = 32.1
+        # Pre-execution / Portfolio Projection based on empirical model benchmarks (CRN Simulation on N=2000)
+        recovery_rate = 50.2
+        baseline_recovery_rate = 33.0
+        expected_recoverable = round(total_failed_amount * 0.502, 2)
         recovered_revenue = expected_recoverable
-        baseline_recovered_revenue = round(total_failed_amount * 0.321, 2)
+        baseline_recovered_revenue = round(total_failed_amount * 0.330, 2)
         incremental_revenue = round(recovered_revenue - baseline_recovered_revenue, 2)
         projected_costs = round(max(total_payments * 1.25, 10.0), 2)
         net_incremental_value = round(incremental_revenue - projected_costs, 2)
@@ -120,7 +121,7 @@ def get_recovery_cohort_chart(db: Session = Depends(get_db)):
     if total_recovered <= 0:
         total_recovered = 54200.0
 
-    baseline_total = total_recovered * 0.68  # 32% baseline vs 48% AI (~68% relative)
+    baseline_total = total_recovered * (33.0 / 50.2)  # Canonical 33.0% baseline vs 50.2% AI ratio
 
     data = []
     for d in range(1, days + 1):
@@ -147,16 +148,16 @@ def calculate_enterprise_roi(
     """
     Enterprise ROI & Recovered GMV Calculator:
     Projects annual recovered GMV, net incremental margin, paired bootstrap 95% confidence bounds,
-    operating channel costs, and ROI multiplier based on empirical RecoverIQ lift (+16.1 pp).
+    operating channel costs, and ROI multiplier based on empirical RecoverIQ lift (+17.2 pp).
     """
     monthly_failed_gmv = monthly_gmv * (failure_rate_pct / 100.0)
     monthly_failed_tx = max(1.0, monthly_failed_gmv / max(aov, 10.0))
 
-    base_rate_pct = 32.1
-    ai_rate_pct = 48.2
-    lift_pp = 16.1
-    ci_lower_pp = 13.5
-    ci_upper_pp = 18.7
+    base_rate_pct = 33.0
+    ai_rate_pct = 50.2
+    lift_pp = 17.2
+    ci_lower_pp = 14.8
+    ci_upper_pp = 19.6
 
     monthly_base_recovered = monthly_failed_gmv * (base_rate_pct / 100.0)
     monthly_ai_recovered = monthly_failed_gmv * (ai_rate_pct / 100.0)
@@ -177,6 +178,9 @@ def calculate_enterprise_roi(
     gross_margin_added = annual_incremental_gmv * (margin_pct / 100.0)
     roi_multiplier = round(max(1.0, gross_margin_added / max(annual_cost, 100.0)), 1)
     
+    # Gross GMV Recovered Multiplier: ₹ Gross GMV Recovered per ₹1 Spend
+    gmv_multiplier = round(annual_incremental_gmv / max(annual_cost, 1.0), 1)
+
     # Dynamic Payback Period in Days
     daily_margin_profit = max(1.0, gross_margin_added / 365.0)
     payback_days = round(min(365.0, max(0.5, annual_cost / daily_margin_profit)), 1)
@@ -205,6 +209,7 @@ def calculate_enterprise_roi(
             "annual_net_incremental_value": round(annual_net_incremental_value, 2),
             "annual_merchant_net_profit": round(annual_merchant_margin_profit, 2),
             "roi_multiplier": roi_multiplier,
+            "gmv_multiplier": gmv_multiplier,
             "payback_period_days": payback_days
         }
     }

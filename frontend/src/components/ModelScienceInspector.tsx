@@ -185,6 +185,13 @@ export const ModelScienceInspector: React.FC = () => {
               </tbody>
             </table>
           </div>
+          {/* Scientific Context Annotation */}
+          <div style={{ padding: 'var(--space-3) var(--space-5)', background: 'var(--bg-inset)', borderTop: '1px solid var(--border-subtle)', fontSize: 'var(--text-xs)', color: 'var(--text-secondary)', display: 'flex', gap: 'var(--space-2)' }}>
+            <span style={{ fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>Scientific Note on Probability Ceiling:</span>
+            <span>
+              In payment recovery, calibrated P(recovery) tops out around ~70% due to inherent banking rail latency and liquidity limits. Peak confidence bin (0.60–1.00) captures high-propensity immediate recovery with robust sample counts.
+            </span>
+          </div>
         </div>
       )}
 

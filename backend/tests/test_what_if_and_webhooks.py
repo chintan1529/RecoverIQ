@@ -205,7 +205,7 @@ def test_model_calibration_endpoint():
     data = res.json()
 
     assert "bins" in data
-    assert len(data["bins"]) == 10
+    assert len(data["bins"]) == 5
     assert "ece" in data
     assert data["ece"] < 0.10
     assert "brier_score" in data

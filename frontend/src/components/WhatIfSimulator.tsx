@@ -170,9 +170,12 @@ export const WhatIfSimulator: React.FC = () => {
 
           {/* Propensity */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
               <label style={{ fontSize: 'var(--text-sm)', fontWeight: 500, color: 'var(--text-secondary)' }}>Propensity Score</label>
               <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, fontFamily: 'var(--font-mono)' }}>{propensityScore.toFixed(2)}</span>
+            </div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>
+              Blended index: 0.5× Tier/Historical + 0.5× Engagement
             </div>
             <input type="range" min={0.10} max={0.99} step={0.05} value={propensityScore}
               onChange={(e) => setPropensityScore(Number(e.target.value))} style={{ width: '100%' }} />
@@ -266,9 +269,14 @@ export const WhatIfSimulator: React.FC = () => {
           {/* Feature Attribution */}
           <div className="card">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-3)' }}>
-              <h4 className="section-title">Feature Attribution</h4>
-              <span style={{ fontSize: 'var(--text-xs)', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
-                Base 42.0% → Shift: {attributions ? `${attributions.net_lift_from_base >= 0 ? '+' : ''}${(attributions.net_lift_from_base * 100).toFixed(1)} pp` : '—'}
+              <div>
+                <h4 className="section-title">Feature Attribution (Decomposition)</h4>
+                <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                  Decomposes feature contribution vs standard baseline retry.
+                </div>
+              </div>
+              <span style={{ fontSize: 'var(--text-xs)', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', textAlign: 'right' }}>
+                Base Retry {(attributions ? (attributions.base_probability * 100).toFixed(1) : '42.0')}% → Shift: {attributions ? `${attributions.net_lift_from_base >= 0 ? '+' : ''}${(attributions.net_lift_from_base * 100).toFixed(1)} pp` : '—'}
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>

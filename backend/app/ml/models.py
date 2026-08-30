@@ -276,6 +276,7 @@ class RecoveryPredictorModel:
                 ]
             }
 
+        n_bins = 5  # 5 robust, well-populated probability bands [0-0.2, 0.2-0.4, 0.4-0.6, 0.6-0.8, 0.8-1.0]
         y_true = self._y_test
         y_prob_cal = self._y_pred_calibrated
         y_prob_raw = self._y_pred_raw

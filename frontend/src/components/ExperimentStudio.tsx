@@ -94,7 +94,7 @@ export const ExperimentStudio: React.FC = () => {
               )}
             </div>
             <div className="card" style={{ padding: 'var(--space-4)' }}>
-              <div className="label" style={{ marginBottom: 'var(--space-2)' }}>ROI</div>
+              <div className="label" style={{ marginBottom: 'var(--space-2)' }}>Campaign ROI</div>
               <div className="metric-lg" style={{ color: 'var(--color-warning-text)' }}>{experiment.roi}x</div>
               {experiment.roi_display_label && (
                 <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '2px' }}>{experiment.roi_display_label}</div>

@@ -216,6 +216,7 @@ export interface RoiCalculatorResponse {
     annual_net_incremental_value: number;
     annual_merchant_net_profit: number;
     roi_multiplier: number;
+    gmv_multiplier?: number;
     payback_period_days: number;
   };
 }

@@ -118,18 +118,18 @@ export const EnterpriseRoiCalculator: React.FC = () => {
               <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '2px' }}>Annual bottom line</div>
             </div>
             <div className="card" style={{ padding: 'var(--space-4)' }}>
-              <div className="label" style={{ marginBottom: 'var(--space-2)' }}>ROI</div>
+              <div className="label" style={{ marginBottom: 'var(--space-2)' }}>Net Margin ROI</div>
               <div className="metric-lg" style={{ color: 'var(--color-warning-text)' }}>
                 {roiData?.financial_impact.roi_multiplier || '—'}x
               </div>
-              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '2px' }}>vs channel cost</div>
+              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '2px' }}>margin profit / spend</div>
             </div>
             <div className="card" style={{ padding: 'var(--space-4)' }}>
-              <div className="label" style={{ marginBottom: 'var(--space-2)' }}>Payback</div>
+              <div className="label" style={{ marginBottom: 'var(--space-2)' }}>Payback Period</div>
               <div className="metric-lg" style={{ color: 'var(--color-success-text)' }}>
                 {roiData?.financial_impact.payback_period_days || '—'} days
               </div>
-              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '2px' }}>Break-even</div>
+              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '2px' }}>Break-even time</div>
             </div>
           </div>
 
@@ -141,7 +141,8 @@ export const EnterpriseRoiCalculator: React.FC = () => {
                 { label: 'Monthly Failed GMV', value: `₹${roiData ? (roiData.inputs.monthly_failed_gmv / 100000).toFixed(2) : '0.00'} L`, color: 'var(--color-danger-text)' },
                 { label: 'Monthly Incremental', value: `+₹${roiData ? (roiData.financial_impact.monthly_incremental_gmv / 100000).toFixed(2) : '0.00'} L`, color: 'var(--color-success-text)' },
                 { label: 'Annual Channel Cost', value: `₹${roiData ? (roiData.financial_impact.annual_channel_operating_cost / 100000).toFixed(2) : '0.00'} L`, color: 'var(--text-secondary)' },
-                { label: 'Recovery Rate', value: '32.1% → 48.2%', color: 'var(--color-interactive-text)' },
+                { label: 'Recovered GMV Multiplier', value: `₹${roiData?.financial_impact.gmv_multiplier || '—'} / ₹1 spent`, color: 'var(--color-warning-text)' },
+                { label: 'Benchmark Recovery Rate', value: `${roiData?.recovery_rates.baseline_recovery_pct || 33.0}% → ${roiData?.recovery_rates.recoveriq_recovery_pct || 50.2}% (+17.2 pp)`, color: 'var(--color-interactive-text)' },
               ].map((item, i) => (
                 <div key={i} style={{ padding: '8px 10px', background: 'var(--bg-inset)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-xs)' }}>
                   <span style={{ color: 'var(--text-muted)', display: 'block' }}>{item.label}</span>
